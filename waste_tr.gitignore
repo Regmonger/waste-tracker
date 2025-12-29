@@ -1,0 +1,8 @@
+# Real logs / exports
+data/waste_log.jsonl
+reports/*.csv
+
+# Python junk
+__pycache__/
+*.pyc
+.env
