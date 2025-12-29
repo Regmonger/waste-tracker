@@ -47,6 +47,7 @@ Waste_Tracker/
 ├── src/
 │   └── waste_tracker.py       # Main application logic
 └── README.md
+└── waste_tr.gitignore
 
 ---
 
