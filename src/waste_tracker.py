@@ -79,10 +79,10 @@ import json
 import uuid
 from collections import defaultdict
 from datetime import datetime
-from pathlib import Path
-DATA_DIR = Path("Projects/Waste_Tracker")
-JSONL_FILE = DATA_DIR / "data/waste_log.jsonl"
-CSV_EXPORT_FILE = DATA_DIR / "reports/waste_log_export.csv"
+import os
+DATA_DIR = os.path.join("Projects", "Waste_Tracker")
+JSONL_FILE = os.path.join(DATA_DIR, "data", "waste_log.jsonl")
+CSV_EXPORT_FILE = os.path.join(DATA_DIR, "reports", "waste_log_export.csv")
 
 VALID_STATIONS = [
     "pasta",
