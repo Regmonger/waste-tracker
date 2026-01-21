@@ -8,71 +8,7 @@ a working restaurant.
 Author: Reggie
 Date: 2026-12-28
 """
-# Ok, Copilot, let's build this Waste Tracker! I'm going to give you some specs to work with. 
 
-# Scope for v1.0:
-# 1. CLI
-# 2. Log waste entries with validation
-# 3. Persist entries to disk (JSONL format)
-# 4. Basic roporting summaries
-# 5. CSV export
-
-# Stations to use: 
-# Pasta, grill, middle(fry and plancha), salumi, pasta_prep, other_prep
-
-# Waste types to use:
-# trim(primary), spoilage(secondary), overproduction(tertiary), other(rare, optional)
-
-# Quantity units to use:
-# -If weight-based: pounds (lbs), ounces (oz)
-# -If count-based: portions (po)
-# -If volume-based: quarts (qt)
-
-# No cost tracking for v1.0
-
-# Item Identification:
-# -Free-text description of wasted item (v1.0)
-# -V 1.5: standardized item list with categories
-
-# Data Model (logical):
-# -id: unique identifier (UUID)
-# -timestamp: date and time of waste entry
-# -station: station where waste occurred (from predefined list)
-# -waste_type: type of waste (from predefined list)
-# -item_name: description of wasted item
-# -quantity_type: unit of measurement (from predefined list)
-# -quantity_value: numeric value of wasted quantity
-# -notes: optional free-text notes
-
-#Storage & Export:
-# -Primary storage: JSONL file (one JSON object per line)
-# -Export format: CSV for spreadsheet analysis
-# -Design allows for future cost fields without schema breakage
-
-# Reporting:
-# -Total waste by station
-# -Total waste by waste type
-# -Counts vs. weights/volumes breakdown
-# -Date-range filtering
-
-#Engineering Principles: Demonstrated
-# -Input validation and defensive programming
-# -Separation of concerns (data model, storage, reporting)
-# -Incremental development with future extensibility in mind
-# -Real-world applicability for restaurant kitchen operations
-
-# Important notes for both of us, Copilot:
-#     This project is intentionally practical. It reflects real constraints, real data, and real workflows. It is designed to be discussed
-#      interviews with confidence, including trade-offs and future extensions.
-#     Focus on clarity, maintainability, and usability. Avoid over-engineering.
-
-# Must have a menu (for GPT5.1 Codex!):
-# 1. Log new waste entry
-# 2. View summary report
-# 3. Export data to CSV
-# 4. Exit
-
-# Start of Waste Tracker code  #
 
 import csv
 import json
