@@ -293,14 +293,15 @@ def display_menu():
     print("1. Log new waste entry")
     print("2. View summary report")
     print("3. Export data to CSV")
-    print("4. Exit")
+    print("4. Delete an entry (coming soon)")
+    print("5. Exit")
 
 
 def main():
     print("Welcome to Waste Tracker!\n")
     while True:
         display_menu()
-        choice = input("Select an option (1-4): ").strip()
+        choice = input("Select an option (1-5): ").strip()
 
         if choice == "1":
             log_new_waste_entry()
@@ -309,13 +310,22 @@ def main():
         elif choice == "3":
             export_data_to_csv()
         elif choice == "4":
+            print("Coming soon: Delete Entry feature!\n")
+        elif choice == "5":
             print("Goodbye!")
             break
         else:
-            print("Invalid selection. Please enter a number between 1 and 4.\n")
+            print("Invalid selection. Please enter a number between 1 and 5.\n")
 
 
 if __name__ == "__main__":
     main()
 
 #  End of Waste Tracker code  #
+
+# Future enhancements:
+# - Refined Summary Reports: More detailed breakdowns, trends over time, visualizations.
+# - Delete Entry Functionality: Allow users to remove incorrect entries.
+# - User Authentication: Add login functionality to offer limited station access and track entries by user.
+# - Data Visualization: Graphs and charts for waste trends over time.
+# - Mobile App Integration: Sync data with a mobile app for easier logging.

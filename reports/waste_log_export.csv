@@ -1,2 +1,4 @@
 id,timestamp,station,waste_type,item_name,quantity_type,quantity_value,notes
 5776a011-095e-4904-87a6-b3db190a5b9d,2025-12-28T16:45:52.003870,grill,trim,Ribeye,lbs,2.75,Dry-aged Ribeye
+27f8558a-7a13-4531-8bf1-3138c4c94af6,2025-12-30T18:42:13.095758,grill,overproduction,New York,po,5.0,
+91c62028-353f-4c2b-bcab-f338bee29d64,2025-12-30T18:45:49.803164,other_prep,overproduction,Panna Cotta,po,4.0,

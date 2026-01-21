@@ -49,6 +49,8 @@ Waste_Tracker/
 └── README.md
 └── waste_tr.gitignore
 
+```
+
 ---
 
 ## Example Use Case
