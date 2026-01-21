@@ -40,6 +40,22 @@ VALID_QUANTITY_TYPES = ["lbs", "oz", "po", "qt"]
 
 # Data Model
 class WasteEntry:
+    """ The WasteEntry class represents a single waste log entry. 
+    The attributes include:
+    - id: Unique identifier for the entry
+    - timestamp: Date and time of the entry
+    - station: Station where the waste occurred
+    - waste_type: Type of waste
+    - item_name: Description of the wasted item
+    - quantity_type: Unit of measurement for the quantity
+    - quantity_value: Numeric value of the quantity
+    - notes: Additional notes about the entry
+
+    Methods:
+    - to_dict(): Convert the entry to a dictionary
+    - to_json(): Convert the entry to a JSON string
+    - from_json(json_str): Create an entry from a JSON string.
+    """
     def __init__(self, station, waste_type, item_name, quantity_type, quantity_value, notes=""):
         self.id = str(uuid.uuid4())
         self.timestamp = datetime.now().isoformat()
