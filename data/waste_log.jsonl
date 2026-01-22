@@ -4,3 +4,4 @@
 {"id": "2cdb37b3-3e34-4afa-ba03-209cc5d9a169", "timestamp": "2026-01-05T00:44:32.015345", "station": "grill", "waste_type": "trim", "item_name": "new york", "quantity_type": "lbs", "quantity_value": 2.6, "notes": "fresh"}
 {"id": "d60d2fb2-bd98-4b6e-a70f-c5bb3d8f3f9e", "timestamp": "2026-01-07T23:40:25.945620", "station": "middle", "waste_type": "trim", "item_name": "pork rack", "quantity_type": "lbs", "quantity_value": 0.8125, "notes": ""}
 {"id": "983ca1aa-6cec-451a-90b7-d959b3777b16", "timestamp": "2026-01-07T23:47:43.810286", "station": "middle", "waste_type": "trim", "item_name": "pork rack", "quantity_type": "lbs", "quantity_value": 1.0, "notes": ""}
+{"id": "d57cd5f2-ad53-4034-8623-352436cd037d", "timestamp": "2026-01-21T20:55:26.353108", "station": "grill", "waste_type": "spoilage", "item_name": "shrimp skewers", "quantity_type": "po", "quantity_value": 2.0, "notes": "sat too long due to low preference this week"}
