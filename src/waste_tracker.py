@@ -15,10 +15,12 @@ import json
 import uuid
 from collections import defaultdict
 from datetime import datetime
-import os
-DATA_DIR = os.path.join("Projects", "Waste_Tracker")
-JSONL_FILE = os.path.join(DATA_DIR, "data", "waste_log.jsonl")
-CSV_EXPORT_FILE = os.path.join(DATA_DIR, "reports", "waste_log_export.csv")
+from pathlib import Path
+
+DATA_DIR = Path("Projects") / "Waste_Tracker"
+JSONL_FILE = DATA_DIR / "data" / "waste_log.jsonl"
+CSV_EXPORT_FILE = DATA_DIR / "reports" / "waste_log_export.csv"
+
 
 VALID_STATIONS = [
     "pasta",
@@ -97,7 +99,8 @@ class WasteEntry:
 
 
 def ensure_data_dir():
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    JSONL_FILE.parent.mkdir(parents=True, exist_ok=True)
+    CSV_EXPORT_FILE.parent.mkdir(parents=True, exist_ok=True)
 
 
 def save_entry(entry, filename=JSONL_FILE):
@@ -125,7 +128,87 @@ def load_entries(filename=JSONL_FILE):
     return entries
 
 
+def search_entries_by_item(search_term: str, entries: list[WasteEntry]) -> list[WasteEntry]:
+    """Return entries where item_name contains the search ter (case-insensitive)."""
+    search_term = search_term.lower()
+    return [entry for entry in entries if search_term in entry.item_name.lower()]
+
+
+def display_entries_for_selections(entries: list[WasteEntry]):
+    """Display entries with numbers for user selection. Returns the list for reference."""
+    for i, entry in enumerate(entries, start=1):
+        date = entry.timestamp[:10]
+        print(f" {i}. [{date}] {entry.item_name} - {entry.quantity_value} {entry.quantity_type} ({entry.station})")
+    return entries
+
+
+def delete_entry():
+    """Allow user to search for and delete an entry."""
+    print("\n-- Delete Entry --")
+
+    entries = load_entries()
+    if not entries:
+        print("No entries to delete.\n")
+        return
+
+    search_term = input("Enter item name to search (or 'list' to show all): ").strip()
+    if not search_term:
+        print("Search cancelled!")
+        return
+    
+    if search_term.lower() == 'list':
+        matches = entries
+
+    else:
+        matches = search_entries_by_item(search_term, entries)
+
+    if not matches:
+        print(f"No matches were found match '{search_term}'.\n")
+        return
+    
+    # Selection phase
+    print(f"\nFound {len(matches)} matching entries:")
+    display_entries_for_selections(matches)
+
+    try:
+        choice = int(input("\nEnter number to delete (or 0 to cancel): ").strip())
+    except ValueError:
+        print("Invalid input. Deletion cancelled!\n")
+        return
+    
+    if choice == 0:
+        print("Deletion cancelled.\n")
+        return
+    
+    if choice < 1 or choice > len(matches):
+        print("Invalid selection. Deletion Cancelled!\n")
+        return
+    
+    #Confirmation of deletion
+    selected = matches[choice - 1]
+    print(f"\nAbout to delete: {selected.item_name} - {selected.quantity_value} {selected.quantity_type} ({selected.station})")
+    confirm = input("Are you sure (y/n): ").strip().lower()
+
+    if confirm != 'y':
+        print("Deletion cancelled!\n")
+        return
+    
+    #Delete phase. Filter out and rewrite file
+    updated_entries = [e for e in entries if e.id != selected.id]
+
+    with open(JSONL_FILE, 'w', encoding='utf-8') as f:
+        for entry in updated_entries:
+            f.write(entry.to_json() + "\n")
+
+    print("Entry deleted.\n")
+
+    
+
+
+
+
 def prompt_choice(prompt, choices):
+    """Function to prompt user to select from a list of choices."""
     normalized = {choice.lower(): choice for choice in choices}
     choices_display = ", ".join(choices)
     while True:
@@ -149,6 +232,7 @@ def prompt_quantity_value():
 
 
 def log_new_waste_entry():
+    """Function to log a new waste entry via user prompts."""
     print("\n-- Log New Waste Entry --")
     station = prompt_choice("Enter station", VALID_STATIONS)
     waste_type = prompt_choice("Enter waste type", VALID_WASTE_TYPES)
@@ -174,6 +258,7 @@ def log_new_waste_entry():
 
 
 def generate_summary(entries):
+    """Function to generate summary statistics from entries."""
     summary = {
         "total_entries": len(entries),
         "totals_by_station": defaultdict(float),
@@ -245,7 +330,7 @@ def display_menu():
     print("1. Log new waste entry")
     print("2. View summary report")
     print("3. Export data to CSV")
-    print("4. Delete an entry (coming soon)")
+    print("4. Delete an entry")
     print("5. Exit")
 
 
@@ -262,7 +347,7 @@ def main():
         elif choice == "3":
             export_data_to_csv()
         elif choice == "4":
-            print("Coming soon: Delete Entry feature!\n")
+            delete_entry()
         elif choice == "5":
             print("Goodbye!")
             break
