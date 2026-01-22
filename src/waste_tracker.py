@@ -35,7 +35,7 @@ VALID_WASTE_TYPES = [
     "trim",
     "spoilage",
     "overproduction",
-    "other",
+    "burnt/overcooked",
 ]
 
 VALID_QUANTITY_TYPES = ["lbs", "oz", "po", "qt"]
@@ -58,7 +58,7 @@ class WasteEntry:
     - to_json(): Convert the entry to a JSON string
     - from_json(json_str): Create an entry from a JSON string.
     """
-    def __init__(self, station, waste_type, item_name, quantity_type, quantity_value, notes=""):
+    def __init__(self, station: str, waste_type: str, item_name: str, quantity_type: str, quantity_value: float, notes: str = ""):
         self.id = str(uuid.uuid4())
         self.timestamp = datetime.now().isoformat()
         self.station = station
@@ -207,7 +207,7 @@ def delete_entry():
 
 
 
-def prompt_choice(prompt, choices):
+def prompt_choice(prompt: str, choices: list[str]) -> str:
     """Function to prompt user to select from a list of choices."""
     normalized = {choice.lower(): choice for choice in choices}
     choices_display = ", ".join(choices)
@@ -232,7 +232,9 @@ def prompt_quantity_value():
 
 
 def log_new_waste_entry():
-    """Function to log a new waste entry via user prompts."""
+    """Function to log a new waste entry via user prompts.
+    If the user enters quantity in ounces, it is converted to pounds.
+    """
     print("\n-- Log New Waste Entry --")
     station = prompt_choice("Enter station", VALID_STATIONS)
     waste_type = prompt_choice("Enter waste type", VALID_WASTE_TYPES)
@@ -242,6 +244,10 @@ def log_new_waste_entry():
         item_name = input("Enter item name/description: ").strip()
     quantity_type = prompt_choice("Enter quantity type", VALID_QUANTITY_TYPES)
     quantity_value = prompt_quantity_value()
+    if quantity_type == "oz":
+        quantity_value /= 16.0
+        quantity_type = "lbs"
+        print(f"  (Converted to {quantity_value:.2f} lbs)")
     notes = input("Enter any additional notes (optional): ").strip()
 
     entry = WasteEntry(
@@ -258,21 +264,39 @@ def log_new_waste_entry():
 
 
 def generate_summary(entries):
-    """Function to generate summary statistics from entries."""
+    """Generate summary statistics from entries."""
     summary = {
         "total_entries": len(entries),
-        "totals_by_station": defaultdict(float),
-        "totals_by_waste_type": defaultdict(float),
-        "quantity_by_unit": defaultdict(float),
+        "weight_lbs": 0.0,
+        "portions": 0.0,
+        "volume_qt": 0.0,
+        "by_station": defaultdict(lambda: {"weight": 0.0, "portions": 0.0, "volume": 0.0}),
+        "by_waste_type": defaultdict(lambda: {"weight": 0.0, "portions": 0.0, "volume": 0.0}),
+        "item_frequency": defaultdict(int),
     }
     for entry in entries:
-        summary["totals_by_station"][entry.station] += entry.quantity_value
-        summary["totals_by_waste_type"][entry.waste_type] += entry.quantity_value
-        summary["quantity_by_unit"][entry.quantity_type] += entry.quantity_value
+        # Track item frequency
+        summary["item_frequency"][entry.item_name] += 1
+        
+        # Route to correct unit bucket
+        if entry.quantity_type == "lbs":
+            summary["weight_lbs"] += entry.quantity_value
+            summary["by_station"][entry.station]["weight"] += entry.quantity_value
+            summary["by_waste_type"][entry.waste_type]["weight"] += entry.quantity_value
+        elif entry.quantity_type == "po":
+            summary["portions"] += entry.quantity_value
+            summary["by_station"][entry.station]["portions"] += entry.quantity_value
+            summary["by_waste_type"][entry.waste_type]["portions"] += entry.quantity_value
+        elif entry.quantity_type == "qt":
+            summary["volume_qt"] += entry.quantity_value
+            summary["by_station"][entry.station]["volume"] += entry.quantity_value
+            summary["by_waste_type"][entry.waste_type]["volume"] += entry.quantity_value
+    
     return summary
 
 
 def view_summary_report():
+    """Display summary report with actionable insights."""
     print("\n-- Summary Report --")
     entries = load_entries()
     if not entries:
@@ -280,22 +304,92 @@ def view_summary_report():
         return
 
     summary = generate_summary(entries)
+
+    # Overview
     print(f"Total entries: {summary['total_entries']}")
+    print(f"\nTotal waste by unit")
+    print(f"  Weight: {summary['weight_lbs']:.2f} lbs")
+    print(f"  Portions: {summary['portions']:.0f}")
+    print(f"  Volume: {summary['volume_qt']:.2f} qt")
+    
+    # Problem waste (excluding trim)
+    problem_types = ["spoilage", "overproduction", "burnt/overcooked"]
+    problem_weight = sum(summary["by_waste_type"] [wt] ["weight"] for wt in problem_types)
+    problem_portions = sum(summary["by_waste_type"] [wt] ["weight"] for wt in problem_types)
+    problem_volume = sum(summary["by_waste_type"] [wt] ["weight"] for wt in problem_types)
 
-    print("\nWaste by station:")
-    for station in VALID_STATIONS:
-        total = summary["totals_by_station"].get(station, 0)
-        print(f"  {station}: {total:.2f}")
-
-    print("\nWaste by type:")
+    print(f"\n** Problem Waste (excluding trim) **")
+    print(f"  Weight: {problem_weight:.2f} lbs")
+    if problem_portions > 0:
+        print(f"  Portions: {problem_portions:.0f}")
+    if problem_volume > 0:
+        print(f"  Volume: {problem_volume:.2f} qt")
+    
+    # Breakdown by waste type
+    print(f"\nBy waste type:")
     for waste_type in VALID_WASTE_TYPES:
-        total = summary["totals_by_waste_type"].get(waste_type, 0)
-        print(f"  {waste_type}: {total:.2f}")
+        data = summary["by_waste_type"][waste_type]
+        if data["weight"] > 0 or data["portions"] > 0 or data["volume"] > 0:
+            parts = []
+            if data["weight"] > 0:
+                parts.append(f"{data['weight']:.2f} lbs")
+            if data["portions"] > 0:
+                parts.append(f"{data['portions']:.0f} po")
+            if data["volume"] > 0:
+                parts.append(f"{data['volume']:.2f} qt")
+            print(f"  {waste_type}: {', '.join(parts)}")
+    
+    # Station breakdown for problem waste only
+    print(f"\nProblem waste by station:")
+    for station in VALID_STATIONS:
+        station_data = {"lbs": 0.0, "po": 0.0, "qt": 0.0}
+        for entry in entries:
+            if entry.station == station and entry.waste_type in problem_types:
+                if entry.quantity_type == "lbs":
+                    station_data["lbs"] += entry.quantity_value
+                elif entry.quantity_type == "po":
+                    station_data["po"] += entry.quantity_value
+                elif entry.quantity_type == "qt":
+                    station_data["qt"] += entry.quantity_value                
+        parts = []
+        if station_data["lbs"] > 0:
+            parts.append(f"{station_data['lbs']:.2f} lbs")
+        if station_data["po"] > 0:
+            parts.append(f"{station_data['po']:.0f} po")
+        if station_data["qt"] > 0:
+            parts.append(f"{station_data['qt']:.2f} qt")
+        if parts:
+            print(f"  {station}: {', '.join(parts)}")
 
-    print("\nQuantity by unit:")
-    for unit in VALID_QUANTITY_TYPES:
-        total = summary["quantity_by_unit"].get(unit, 0)
-        print(f"  {unit}: {total:.2f}")
+
+    # Top items by frequency with waste type breakdown
+    print(f"\nTop items by frequency:")
+    item_detail = defaultdict(lambda: defaultdict(lambda: {"count": 0, "lbs": 0.0, "po": 0.0, "qt": 0.0}))
+    for entry in entries:
+        item_detail[entry.item_name][entry.waste_type]["count"] += 1
+        if entry.quantity_type == "lbs":
+            item_detail[entry.item_name][entry.waste_type]["lbs"] += entry.quantity_value
+        elif entry.quantity_type == "po":
+            item_detail[entry.item_name][entry.waste_type]["po"] += entry.quantity_value
+        elif entry.quantity_type == "qt":
+            item_detail[entry.item_name][entry.waste_type]["qt"] += entry.quantity_value
+    
+    sorted_items = sorted(summary["item_frequency"].items(), key=lambda x: x[1], reverse=True)
+    for item, count in sorted_items[:5]:
+        breakdown_parts = []
+        for waste_type in VALID_WASTE_TYPES:
+            wt_data = item_detail[item][waste_type]
+            if wt_data["count"] > 0:
+                qty_parts = []
+                if wt_data["lbs"] > 0:
+                    qty_parts.append(f"{wt_data['lbs']:.2f} lbs")
+                if wt_data["po"] > 0:
+                    qty_parts.append(f"{wt_data['po']:.0f} po")
+                if wt_data["qt"] > 0:
+                    qty_parts.append(f"{wt_data['qt']:.2f} qt")
+                breakdown_parts.append(f"{', '.join(qty_parts)} {waste_type}")
+        print(f"  {item}: {count} entries ({'; '.join(breakdown_parts)})")
+    
     print("")
 
 
