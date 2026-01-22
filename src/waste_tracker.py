@@ -455,8 +455,6 @@ if __name__ == "__main__":
 #  End of Waste Tracker code  #
 
 # Future enhancements:
-# - Refined Summary Reports: More detailed breakdowns, trends over time, visualizations.
-# - Delete Entry Functionality: Allow users to remove incorrect entries.
 # - User Authentication: Add login functionality to offer limited station access and track entries by user.
 # - Data Visualization: Graphs and charts for waste trends over time.
 # - Mobile App Integration: Sync data with a mobile app for easier logging.
