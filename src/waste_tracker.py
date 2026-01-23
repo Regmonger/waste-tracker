@@ -315,8 +315,8 @@ def view_summary_report():
     # Problem waste (excluding trim)
     problem_types = ["spoilage", "overproduction", "burnt/overcooked"]
     problem_weight = sum(summary["by_waste_type"] [wt] ["weight"] for wt in problem_types)
-    problem_portions = sum(summary["by_waste_type"] [wt] ["weight"] for wt in problem_types)
-    problem_volume = sum(summary["by_waste_type"] [wt] ["weight"] for wt in problem_types)
+    problem_portions = sum(summary["by_waste_type"] [wt] ["portions"] for wt in problem_types)
+    problem_volume = sum(summary["by_waste_type"] [wt] ["volume"] for wt in problem_types)
 
     print(f"\n** Problem Waste (excluding trim) **")
     print(f"  Weight: {problem_weight:.2f} lbs")
