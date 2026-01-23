@@ -362,10 +362,17 @@ def view_summary_report():
             print(f"  {station}: {', '.join(parts)}")
 
 
-    # Top items by frequency with waste type breakdown
-    print(f"\nTop items by frequency:")
+    # Top problem items by frequency
+    print(f"\nTop problem items by frequency:")
+    problem_types = ["spoilage", "overproduction", "burnt/overcooked"]
+    problem_entries = [e for e in entries if e.waste_type in problem_types]
+    
+    # Build frequency count and detail tracking for problem items only
+    problem_item_freq = defaultdict(int)
     item_detail = defaultdict(lambda: defaultdict(lambda: {"count": 0, "lbs": 0.0, "po": 0.0, "qt": 0.0}))
-    for entry in entries:
+    
+    for entry in problem_entries:
+        problem_item_freq[entry.item_name] += 1
         item_detail[entry.item_name][entry.waste_type]["count"] += 1
         if entry.quantity_type == "lbs":
             item_detail[entry.item_name][entry.waste_type]["lbs"] += entry.quantity_value
@@ -374,10 +381,10 @@ def view_summary_report():
         elif entry.quantity_type == "qt":
             item_detail[entry.item_name][entry.waste_type]["qt"] += entry.quantity_value
     
-    sorted_items = sorted(summary["item_frequency"].items(), key=lambda x: x[1], reverse=True)
+    sorted_items = sorted(problem_item_freq.items(), key=lambda x: x[1], reverse=True)
     for item, count in sorted_items[:5]:
         breakdown_parts = []
-        for waste_type in VALID_WASTE_TYPES:
+        for waste_type in problem_types:
             wt_data = item_detail[item][waste_type]
             if wt_data["count"] > 0:
                 qty_parts = []
@@ -388,7 +395,8 @@ def view_summary_report():
                 if wt_data["qt"] > 0:
                     qty_parts.append(f"{wt_data['qt']:.2f} qt")
                 breakdown_parts.append(f"{', '.join(qty_parts)} {waste_type}")
-        print(f"  {item}: {count} entries ({'; '.join(breakdown_parts)})")
+        if breakdown_parts:
+            print(f"  {item}: {count} entries ({'; '.join(breakdown_parts)})")
     
     print("")
 
