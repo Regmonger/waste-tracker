@@ -1,4 +1,35 @@
 id,timestamp,station,waste_type,item_name,quantity_type,quantity_value,notes
-5776a011-095e-4904-87a6-b3db190a5b9d,2025-12-28T16:45:52.003870,grill,trim,Ribeye,lbs,2.75,Dry-aged Ribeye
-27f8558a-7a13-4531-8bf1-3138c4c94af6,2025-12-30T18:42:13.095758,grill,overproduction,New York,po,5.0,
-91c62028-353f-4c2b-bcab-f338bee29d64,2025-12-30T18:45:49.803164,other_prep,overproduction,Panna Cotta,po,4.0,
+c16bc56a-0317-43cc-8a0d-46da943efeec,2025-12-29T15:36:37.430691,middle,trim,pork rack,lbs,3.75,
+29b6f813-d3ec-417e-8280-90c0946cb69c,2025-12-29T16:22:32.761043,grill,trim,new york,lbs,4.5,dry aged
+7982dec0-6236-487f-801a-aa2c7518f309,2025-12-31T13:07:36.190794,grill,trim,Filet,lbs,0.75,
+c58fdce9-7bc8-429a-9acc-e3c429b6372e,2025-12-31T13:09:04.851538,grill,trim,Ribeye,lbs,2.12,
+29ea9d5a-ea6e-4059-9f51-4ce3223703c7,2025-12-31T13:10:16.927261,other_prep,spoilage,red pepper,lbs,3.0,
+11aecfc6-ddc2-4936-b657-10968aaa9e16,2025-12-31T13:11:27.063885,other_prep,spoilage,parsley,lbs,2.0,
+9aff5849-4ce8-4098-a0aa-2b8dd5260e0a,2025-12-31T18:59:50.156203,grill,trim,Ribeye,lbs,5.6,
+d64cac62-9382-452b-a31f-e3032a4f2986,2025-12-31T19:00:42.264522,grill,trim,New York,lbs,4.4,
+2fcb7604-b5b4-461b-8067-86ef4aa5c515,2026-01-01T21:16:27.407983,grill,trim,Filet,lbs,0.75,
+b49832a6-9a35-4bb3-96d0-bda88c901df5,2026-01-02T13:41:19.049804,middle,trim,Pork Rack,lbs,4.12,
+c9dc1739-f086-4a21-8369-63f378ae60e5,2026-01-03T17:07:32.367970,grill,trim,filet,lbs,0.95,
+31e22550-8384-410d-aeb5-211947a852c8,2026-01-11T18:14:59.709940,grill,trim,filet,lbs,1.6,
+be8a2d79-4452-4d5f-bc43-187048c18440,2026-01-11T18:15:37.224246,other_prep,spoilage,crimini,lbs,2.2,
+18cab50c-0048-4c9e-a339-6c70f6594c07,2026-01-11T18:16:11.912071,other_prep,spoilage,shallots,lbs,0.8,
+7ad707d0-17af-4d69-8899-456489f40981,2026-01-11T18:16:44.558322,middle,trim,filet,lbs,2.1,
+1fa9c440-a400-47b6-972a-871658c638bd,2026-01-11T18:17:27.207778,middle,spoilage,calamari,po,1.0,burnt
+eb62bce5-8a62-40f2-9c0f-6b60eb7740c6,2026-01-11T18:18:33.236625,grill,trim,ribeye,lbs,2.2,
+d2afb1db-8699-4984-a4ca-9763db1d56a3,2026-01-11T18:19:24.934847,middle,other,eggplant parmigiana,po,1.0,cut too small
+45b95e15-9d02-4faa-9d03-c0c5e6b314c0,2026-01-11T18:20:03.404361,grill,trim,ribeye,lbs,3.45,
+4d55863d-0995-429c-aa71-6968171454e7,2026-01-11T18:20:31.553668,grill,trim,new york,lbs,3.3,
+c62b8554-11b2-4fbe-b2ed-6e3df9c74805,2026-01-11T18:20:58.828160,grill,trim,filey,lbs,2.55,
+1af06844-6d8e-4934-b054-f8bd5f80391b,2026-01-11T18:21:35.920084,middle,trim,branzino,lbs,5.35,
+3702683d-6b1d-49b9-8e1b-f91930ca3844,2026-01-22T16:16:20.502174,grill,burnt/overcooked,new york,po,1.0,burnt
+275d1567-d23e-4a70-99a8-09126afc27f1,2026-01-22T16:17:13.454478,grill,trim,ribeye,lbs,2.4,
+6223efb8-8b68-4eca-a179-8026759a4740,2026-01-22T16:18:26.914129,grill,trim,new york,lbs,3.3,
+23db3978-e5f4-4531-a954-247ee60514ad,2026-01-22T16:18:55.018819,grill,trim,filet,lbs,1.75,
+709fa15b-1845-47ab-ab68-291de097f49a,2026-01-22T16:19:26.659514,middle,trim,pork rack,lbs,4.45,
+34882bf3-4da8-4e88-8998-3a5b599f9dc8,2026-01-22T16:20:07.036515,grill,trim,filet,lbs,3.1,
+e6e479cd-038f-42a8-9cff-f2cd7f33a2d4,2026-01-22T16:21:07.911299,grill,trim,ribeye,lbs,3.75,
+8b6b87b5-82f3-43af-a817-52c200b9530f,2026-01-22T16:22:58.598465,middle,trim,branzino,lbs,2.15,
+57377c96-b9f5-4c19-b990-c23cd2faeff2,2026-01-22T16:23:21.544686,grill,trim,new york,lbs,3.0,
+c6707ea4-4084-4ed8-8435-c4e2dde7a65a,2026-01-22T16:23:43.511118,middle,trim,pork rack,lbs,2.3,
+dbbdf4ac-766e-46ca-8e7c-aaba44323836,2026-01-22T16:24:10.184481,grill,trim,ribeye,lbs,3.85,
+9c818ca3-90c9-4bf9-815d-ba43059622be,2026-01-22T16:24:37.228597,middle,burnt/overcooked,lasagna,po,1.0,dropped
