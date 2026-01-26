@@ -16,7 +16,7 @@ be8a2d79-4452-4d5f-bc43-187048c18440,2026-01-11T18:15:37.224246,other_prep,spoil
 7ad707d0-17af-4d69-8899-456489f40981,2026-01-11T18:16:44.558322,middle,trim,filet,lbs,2.1,
 1fa9c440-a400-47b6-972a-871658c638bd,2026-01-11T18:17:27.207778,middle,spoilage,calamari,po,1.0,burnt
 eb62bce5-8a62-40f2-9c0f-6b60eb7740c6,2026-01-11T18:18:33.236625,grill,trim,ribeye,lbs,2.2,
-d2afb1db-8699-4984-a4ca-9763db1d56a3,2026-01-11T18:19:24.934847,middle,other,eggplant parmigiana,po,1.0,cut too small
+d2afb1db-8699-4984-a4ca-9763db1d56a3,2026-01-11T18:19:24.934847,middle,burnt/overcooked,eggplant parmigiana,po,1.0,cut too small
 45b95e15-9d02-4faa-9d03-c0c5e6b314c0,2026-01-11T18:20:03.404361,grill,trim,ribeye,lbs,3.45,
 4d55863d-0995-429c-aa71-6968171454e7,2026-01-11T18:20:31.553668,grill,trim,new york,lbs,3.3,
 c62b8554-11b2-4fbe-b2ed-6e3df9c74805,2026-01-11T18:20:58.828160,grill,trim,filey,lbs,2.55,
@@ -35,3 +35,5 @@ dbbdf4ac-766e-46ca-8e7c-aaba44323836,2026-01-22T16:24:10.184481,grill,trim,ribey
 9c818ca3-90c9-4bf9-815d-ba43059622be,2026-01-22T16:24:37.228597,middle,burnt/overcooked,lasagna,po,1.0,dropped
 2f2ec101-1b24-47e5-9695-cd9f5e28c88d,2026-01-24T02:02:25.455960,middle,burnt/overcooked,pork milanese,po,1.0,burned
 e3c015de-fffc-411c-aa22-dc032ecf653a,2026-01-24T02:04:16.399907,other_prep,overproduction,panna cotta,po,4.0,molded
+e0713edc-8d7b-498f-a9bc-c079e37341fb,2026-01-26T02:53:30.757880,middle,burnt/overcooked,pork milanese,po,1.0,burnt
+d73d6835-2160-4369-b543-6f238d408442,2026-01-26T02:54:12.313973,middle,burnt/overcooked,calamari,po,1.0,overcooked
